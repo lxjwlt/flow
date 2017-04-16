@@ -1,0 +1,32 @@
+{
+  "name": "flow",
+  "version": "0.0.1",
+  "description": "data flow",
+  "main": "./src/index.js",
+  "scripts": {
+    "mocha": "mocha",
+    "test": "mocha --recursive --reporter dot ./tests || exit 0",
+    "debug": "iron-node node_modules/mocha/bin/_mocha"
+  },
+  "keywords": [
+    "js",
+    "runtime",
+    "flow",
+    "in-out"
+  ],
+  "author": "lxjwlt",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  },
+  "files": [],
+  "engines": {
+    "node": ">= 6.9.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lxjwlt/flow.git"
+  },
+  "homepage": "https://github.com/lxjwlt/flow"
+}
