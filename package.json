@@ -28,5 +28,8 @@
     "type": "git",
     "url": "https://github.com/lxjwlt/flow.git"
   },
-  "homepage": "https://github.com/lxjwlt/flow"
+  "homepage": "https://github.com/lxjwlt/flow",
+  "dependencies": {
+    "lodash": "^4.17.4"
+  }
 }
