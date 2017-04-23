@@ -7,25 +7,25 @@ const _ = require('lodash');
 function flow (data) {
 
     if (_.isPlainObject(data)) {
-        initObject(data);
+        return initPlainObject(data);
 
     } else if (_.isFunction(data)) {
-
-        if (this instanceof data) {
-            initConstructor(data);
-        } else {
-            initFunction(data);
-        }
+        return initFunction(data);
     }
 
-    return Flow(data);
 }
 
-function initObject (obj) {
-    obj.__flowData__ = _.cloneDeep(obj);
+function initObject (obj, exclude) {
     obj.__record__ = Record(obj);
 
+    exclude = exclude || [];
+    exclude.push('prototype');
+
     for (let key of Object.getOwnPropertyNames(obj)) {
+
+        if (key.match(/^_/) || exclude.indexOf(key) >= 0) {
+            continue;
+        }
 
         Object.defineProperty(obj, key, {
 
@@ -45,26 +45,35 @@ function initObject (obj) {
 
 }
 
+function initPlainObject (obj) {
+    obj.__flowData__ = _.cloneDeep(obj);
+
+    initObject(obj);
+}
+
 function initFunction (func) {
 
-    initObject(func);
+    if (func.__IS_FLOW_FUNCTION__) {
+        return func;
+    }
 
-    return function () {
+    initObject(func, ['name', 'length']);
 
-        func.__record__.arguments(...arguments);
+
+
+    let wrapFunc = function () {
 
         const result = func.apply(this, arguments);
 
-        func.__record__.return(result);
+        func.__record__.setExample(this, arguments, result);
 
         return flow(result);
     };
 
+    wrapFunc.__IS_FLOW_FUNCTION__ = true;
+    wrapFunc.__flowData__ = func;
 
-}
-
-function initConstructor (func) {
-
+    return wrapFunc;
 }
 
 module.exports = flow;

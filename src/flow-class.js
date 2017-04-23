@@ -4,10 +4,10 @@ const _ = require('lodash');
 
 class Flow {
 
-    constructor (data, parent) {
+    constructor (origin, parent) {
         let self = this;
 
-        self.data = data;
+        self.origin = origin;
 
         self.parent = parent;
 
@@ -17,22 +17,26 @@ class Flow {
     init () {
         let self = this;
 
-        if (_.isPlainObject(self.data)) {
+        if (_.isPlainObject(self.origin)) {
 
+            self.type = 'object';
 
+        } else if (_.isFunction(self.origin)) {
 
-        } else if (_.isFunction(self.data)) {
+            self.type = 'function';
 
-
+            self.examples = [];
         }
     }
 
-    initObject (obj) {
+    setExample (context, args, result) {
+        let self = this;
 
-    }
-
-    initFunction (func) {
-
+        self.examples.push({
+            isConstructor: context instanceof self.origin,
+            params: args,
+            return: result
+        });
     }
 
 }

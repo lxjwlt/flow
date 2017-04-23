@@ -17,34 +17,21 @@ describe('src/index.js', () => {
 
         flowFunc(2, 'string value');
 
-        assert.deepEqual(flow.info(flowFunc), {
-            root: true,
-            type: 'function',
-            flow: [
+        assert.deepEqual(flowFunc.__record__, {
+            examples: [
                 {
-                    arguments: [
-                        {
-                            type: 'number',
-                            value: 1
-                        }
+                    params: [
+                        1
                     ],
                     return: 1
                 },
                 {
-                    arguments: [
-                        {
-                            type: 'number',
-                            value: 2
-                        },
-                        {
-                            type: 'string',
-                            value: 'string value'
-                        }
+                    params: [
+                        2, 'string value'
                     ],
                     return: 1
                 }
             ]
-
         });
     });
 
